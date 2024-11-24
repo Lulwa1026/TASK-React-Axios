@@ -13,13 +13,18 @@ import {
 const queryClient = new QueryClient()
 function App() {
   const [selectedPet, setSelectedPet] = useState(249);
+
+  const handlePetDeleted = () => {
+    setSelectedPet(null);
+  }
+
   return (
     <QueryClientProvider client={queryClient}>
          <div className="font-mono">
       <Navbar />
       <Home />
       <PetList setSelectedPet={setSelectedPet}/>
-      <PetDetail selectedPet={selectedPet}/>
+      <PetDetail handlePetDeleted={handlePetDeleted} selectedPet={selectedPet}/>
     </div>
       </QueryClientProvider>
  

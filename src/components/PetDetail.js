@@ -4,17 +4,22 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getPetById } from "../API/pets";
 import { deletePet } from "../API/pets";
 
-const PetDetail = ({selectedPet}) => {
+const PetDetail = ({selectedPet, handlePetDeleted}) => {
   const {data, isFetching, isSuccess, refetch} = useQuery({
     queryKey: ["pets", selectedPet],
     queryFn: () => getPetById(selectedPet),
   });
 
   const mutation = useMutation({
-    mutationFn: () => deletePet(selectedPet),
+    mutationFn: async () => {
+      await deletePet(selectedPet);
+      handlePetDeleted();
+    },
   });
 
-  const handleDelete = mutation.mutate(selectedPet)
+  const handleDelete = () => {
+    mutation.mutate(selectedPet)
+  }
   return (
     <div className="bg-[#F9E3BE] w-screen h-[100vh] flex justify-center items-center">
       <div className="border border-black rounded-md w-[70%] h-[70%] overflow-hidden flex flex-col md:flex-row p-5">
